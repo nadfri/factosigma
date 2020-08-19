@@ -10,7 +10,7 @@ input[type=number] {
 }
 
 #n{
-    width: 25vw;
+    width: 16.5vw;
     height: 5vh;
 }
 
@@ -35,4 +35,8 @@ fieldset{
 
 #decomposition{
     text-align: center;
+}
+
+i{
+    color: red;
 }
