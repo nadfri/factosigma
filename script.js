@@ -5,8 +5,8 @@ let tabSigma;
 
 
 n.oninput = () => {
-    factoSpan.textContent = factoriel(n.value);
-    sigmaSpan.textContent = "";
+    factoSpan.textContent   = factoriel(n.value);
+    decomposition.innerHTML = "";
     tabSigma  = [];
     
     for (let prime of primes)
@@ -17,8 +17,6 @@ n.oninput = () => {
         {
             let sigmaValue = sigma(n.value,prime);
             tabSigma.push({prime,sigmaValue});
-            sigmaSpan.innerHTML += `Sigma(${n.value},${prime}) = ${sigmaValue}` 
-                                 +  "<br>";
         }
     }
 
@@ -27,7 +25,10 @@ n.oninput = () => {
         decomposition.innerHTML += `${p.prime}<sup>${p.sigmaValue}</sup> * `;
     }
 
-    decomposition.innerHTML += n.value;
+    decomposition.innerHTML += n.value + "<sup>1</sup>";
+
+    decomposition.innerHTML = (decomposition.innerHTML == "<sup>1</sup>")?
+    "" : decomposition.innerHTML; //vide vraiment la div
     
 };
 
