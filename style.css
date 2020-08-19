@@ -10,7 +10,7 @@ input[type=number] {
 }
 
 #n{
-    width: 5vw;
+    width: 25vw;
     height: 5vh;
 }
 
@@ -29,7 +29,7 @@ fieldset{
     padding-right: 1vw;
     padding-left: 1vw;
     box-shadow: 3px 1px 2px 1px #d8d8d8;
-    min-height: 10vh;
+    min-height: 15vh;
 }
 
 
@@ -38,10 +38,3 @@ fieldset{
 }
 
 
-
-@media screen and (max-width: 600px)
-{
-    #n{
-        width: 15vw;
-    }
-}

@@ -8,6 +8,12 @@ n.oninput = () => {
     factoSpan.textContent   = factoriel(n.value);
     decomposition.innerHTML = "";
     tabSigma  = [];
+
+    if(!primes.includes(Number(n.value)) && n.value != "" && n.value != 1)
+        decomposition.textContent = `${n.value} n'est pas un nombre premier!`;
+
+    else
+    {
     
     for (let prime of primes)
     {
@@ -29,12 +35,12 @@ n.oninput = () => {
 
     decomposition.innerHTML = (decomposition.innerHTML == "<sup>1</sup>")?
     "" : decomposition.innerHTML; //vide vraiment la div
-    
+}  
 };
 
 function factoriel(n)
 {
-    if (n == 1 || n == "") return 1;
+    if (n == 1 || n == "" || n == 0) return 1;
     else return (n * factoriel(n - 1));
 }
 
