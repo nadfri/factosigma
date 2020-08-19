@@ -23,7 +23,7 @@ n.oninput = () => {
     for (let p of tabSigma)
         decomposition.innerHTML += `${p.prime}<sup>${p.sigmaValue}</sup> *`;
 
-   // decomposition.textContent = decomposition.textContent.replace(/\*$/,"");
+    decomposition.innerHTML = decomposition.innerHTML.replace(/\*$/m,"");
 
 };
 
