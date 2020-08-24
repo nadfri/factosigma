@@ -74,7 +74,7 @@ n.oninput = () => {
     {
         console.time("label");
         
-        factoSpan.textContent   = factoriel(n.value);
+        factoSpan.textContent   = factoriel(n.value).toLocaleString();
         decomposition.innerHTML = "";
         tabSigma  = [];
         data = [];
@@ -122,7 +122,7 @@ function factoriel(n)
 {
     n = BigInt(n); //Transformation en Big Int
     if (n == 1 || n == "" || n == 0) return 1n;
-    else return (n * factoriel(n - 1n)); //2n = 2 en Big Int
+    else return (n * factoriel(n - 1n)); //1n = 1 en Big Int
 }
 
 function sigma(n,p)
@@ -186,4 +186,8 @@ document.getElementById("downBtn").addEventListener("click", function(){
     
     download(filename, text);
 }, false);
+
+//Empeche le resizing à l'apparition du clavier
+const metas = document.getElementsByTagName('meta');
+metas[1].content = 'width=device-width, height=' + window.innerHeight + ' initial-scale=1.0, maximum-scale=5.0,user-scalable=0';
 
