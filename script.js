@@ -97,23 +97,13 @@ n.oninput = () => {
 
         for (let p of tabSigma) decomposition.innerHTML += `${p.prime}<sup>${p.sigmaValue}</sup> *`;
 
-        decomposition.innerHTML = decomposition.innerHTML.replace(/\*$/m,"");
-
-        if(n.value>0)
-        {  
-            tracer.disabled = false;
-            downBtn.disabled = false;
-        }
-
-        else
-        {  
-            tracer.disabled = true;
-            downBtn.disabled = true;
-        }
-
-
         console.timeEnd("label");
 
+        decomposition.innerHTML = decomposition.innerHTML.replace(/\*$/m,"");
+        //Gestion des boutons
+        downBtn.disabled = (n.value>0)? false : true;
+    
+        trace();
     }
 
 };
@@ -144,26 +134,29 @@ function sigma(n,p)
 }
 
 
-
-
 function trace()
 {
     //data.splice(0,10);
-    if(document.querySelector("svg")) document.querySelector("svg").remove();
+    //console.log(data);
 
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    if(document.querySelector("svg")) //supprime le SVG pour la creation d'un nouveau
+        document.querySelector("svg").remove();
 
-    svg.id = "courbe";
+    if(data.length>1) //inutile de tracer le graph pour 1 seul point
+    {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        //obligatoire pour créér un SVG
+        svg.id = "courbe";
+        document.body.appendChild(svg);
 
-    document.body.appendChild(svg);
-
-    const graph = new jsGraphDisplay();
-    graph.DataAdd({data});
-    graph.Draw(svg.id);
+        const graph = new jsGraphDisplay();
+        graph.DataAdd({data});
+        graph.Draw(svg.id);
+    }
 
 }
 
-tracer.onclick = trace;
+//tracer.onclick = trace;
 
 function download(filename, text) {
     var element = document.createElement('a');

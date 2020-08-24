@@ -322,7 +322,7 @@ me.DataAdd = function(aData){
 	l.limit.y = {min: yMin, max: yMax};
 	l.display = {};
 	l.display.linkWidth = me.VarInit(aData, "display.linkWidth", 1);
-	l.display.linkColor = me.VarInit(aData, "display.linkColor", "#ccc");
+	l.display.linkColor = me.VarInit(aData, "display.linkColor", "red");
 	l.display.linkDash = me.VarInit(aData, "display.linkDash", []);
 	l.display.linkFromZero = me.VarInit(aData, "display.linkFromZero", false);
 	l.display.linkType = me.VarInit(aData, "display.linkType", "linkData");
@@ -389,8 +389,8 @@ me.dataLst = [];
 
 // marges
 me.margin = {};
-me.margin.top = me.VarInit(aData, "margin.top", 5);
-me.margin.right = me.VarInit(aData, "margin.right", 5);
+me.margin.top = me.VarInit(aData, "margin.top", 10);
+me.margin.right = me.VarInit(aData, "margin.right", 10);
 me.margin.bottom = me.VarInit(aData, "margin.bottom", 5);
 me.margin.left = me.VarInit(aData, "margin.left", 5);
 
@@ -402,25 +402,25 @@ me.axe.color = me.VarInit(aData, "axe.color", "#000");
 me.axe.x = {};
 me.axe.x.title = me.VarInit(aData, "axe.x.title", "");
 me.axe.x.list = me.VarInit(aData, "axe.x.list", "");
-me.axe.x.min = me.VarInit(aData, "axe.x.min", "auto");
+me.axe.x.min = me.VarInit(aData, "axe.x.min", "0");
 me.axe.x.max = me.VarInit(aData, "axe.x.max", "auto");
 me.axe.x.step = me.VarInit(aData, "axe.x.step", "auto");
 me.axe.x.minAuto = (me.axe.x.min == "auto");
 me.axe.x.maxAuto = (me.axe.x.max == "auto");
 me.axe.x.stepAuto = (me.axe.x.step == "auto");
-me.axe.x.textDisplayEvery = me.VarInit(aData, "axe.x.textDisplayEvery", 1);
+me.axe.x.textDisplayEvery = me.VarInit(aData, "axe.x.textDisplayEvery", 2);
 me.axe.x.textSize = me.VarInit(aData, "axe.x.textSize", 12);
 me.axe.x.textColor = me.VarInit(aData, "axe.x.textColor", "#000");
 me.axe.y = {};
 me.axe.y.title = me.VarInit(aData, "axe.y.title", "");
 me.axe.y.list = me.VarInit(aData, "axe.y.list", "");
-me.axe.y.min = me.VarInit(aData, "axe.y.min", "auto");
+me.axe.y.min = me.VarInit(aData, "axe.y.min", "0");
 me.axe.y.max = me.VarInit(aData, "axe.y.max", "auto");
 me.axe.y.step = me.VarInit(aData, "axe.y.step", "auto");
 me.axe.y.minAuto = me.axe.y.min === "auto" ? true : false;
 me.axe.y.maxAuto = me.axe.y.max === "auto" ? true : false;
 me.axe.y.stepAuto = me.axe.y.step === "auto" ? true : false;
-me.axe.y.textDisplayEvery = me.VarInit(aData, "axe.y.textDisplayEvery", 1);
+me.axe.y.textDisplayEvery = me.VarInit(aData, "axe.y.textDisplayEvery", 2);
 me.axe.y.textSize = me.VarInit(aData, "axe.y.textSize", 12);
 me.axe.y.textColor = me.VarInit(aData, "axe.y.textColor", "#000");
 
