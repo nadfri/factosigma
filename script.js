@@ -61,6 +61,9 @@ const primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83
                 5903, 5923, 5927, 5939, 5953, 5981, 5987
                 ];
 let tabSigma;
+let data;
+let excelP;
+let excelSG;
 
 
 n.oninput = () => {
@@ -69,9 +72,14 @@ n.oninput = () => {
 
     else
     {
+        console.time("label");
+        
         factoSpan.textContent   = factoriel(n.value);
         decomposition.innerHTML = "";
         tabSigma  = [];
+        data = [];
+        excelP = "p:\n";
+        excelSG = "\nSigma:\n";
     
         for (let prime of primes)
         {
@@ -81,13 +89,30 @@ n.oninput = () => {
             {
                 let sigmaValue = sigma(n.value,prime);
                 tabSigma.push({prime,sigmaValue});
+                data.push([prime,sigmaValue]);
+                excelP  += prime + "\n";
+                excelSG += sigmaValue  +"\n";
             }
         }
 
-        for (let p of tabSigma)
-            decomposition.innerHTML += `${p.prime}<sup>${p.sigmaValue}</sup> *`;
+        for (let p of tabSigma) decomposition.innerHTML += `${p.prime}<sup>${p.sigmaValue}</sup> *`;
 
         decomposition.innerHTML = decomposition.innerHTML.replace(/\*$/m,"");
+
+        if(n.value>0)
+        {  
+            tracer.disabled = false;
+            downBtn.disabled = false;
+        }
+
+        else
+        {  
+            tracer.disabled = true;
+            downBtn.disabled = true;
+        }
+
+
+        console.timeEnd("label");
 
     }
 
@@ -95,26 +120,70 @@ n.oninput = () => {
 
 function factoriel(n)
 {
-    if (n == 1 || n == "" || n == 0) return 1;
-    else return (n * factoriel(n - 1));
+    n = BigInt(n); //Transformation en Big Int
+    if (n == 1 || n == "" || n == 0) return 1n;
+    else return (n * factoriel(n - 1n)); //2n = 2 en Big Int
 }
 
 function sigma(n,p)
 {
-    let s = 0;
+    let   s = 0;
     const N = n;
-
-    if(n == "")
-        return false;
-    else
+    let   i = 1;
+    let   temp;
+    do
     {
-        do
-        {
-            s += n%p;
-            n  = Math.trunc(n/p);
-        }while(n != 0)
-
-        return (N-s)/(p-1);
-    }
+        s += n%p;
+        n  = Math.trunc(n/p);
+    }while(n != 0) return (N-s)/(p-1);
+    // do{
+    //     temp = Math.trunc(n/Math.pow(p,i));
+    //     s+= temp;
+    //     i++;
+    // }while(temp>0) return s;
 }
+
+
+
+
+function trace()
+{
+    //data.splice(0,10);
+    if(document.querySelector("svg")) document.querySelector("svg").remove();
+
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+    svg.id = "courbe";
+
+    document.body.appendChild(svg);
+
+    const graph = new jsGraphDisplay();
+    graph.DataAdd({data});
+    graph.Draw(svg.id);
+
+}
+
+tracer.onclick = trace;
+
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+// Start file download.
+document.getElementById("downBtn").addEventListener("click", function(){
+    // Generate download of hello.txt file with some content
+    var text = excelP + excelSG;
+    var filename = "sigma.txt";
+    
+    download(filename, text);
+}, false);
 

@@ -7,11 +7,13 @@
     <title>Factoriel Sigma M²</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <script src="jsGraphDisplay.1.0.js" defer></script>
+    <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 </head>
 
 <body>
     <label>Factoriel de
-        <input type="number" id="n" max=21 autocomplete="off" placeholder="max:6000"/>
+        <input type="number" id="n" autocomplete="off" placeholder="max:6000"/>
     </label>
     =
     <span id="factoSpan">n!</span>
@@ -22,6 +24,15 @@
         <legend>Décomposition</legend>
         <div id="decomposition"></div>
     </fieldset>
+
+    <br>
+
+    <button id="tracer" disabled>TRACER</button>
+    <button id="downBtn" disabled>Télécharger la liste des p & Sigma</button>
+
+    <br><br>
+
+
 
 </body>
 
