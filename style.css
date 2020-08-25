@@ -79,5 +79,12 @@ svg{
 
 button{
     border: 1px solid teal;
+    border-radius: 5px;
+    height: 4vh;
+}
+
+.centrage{
+    display: flex;
+    justify-content: space-around;
 }
 
