@@ -327,7 +327,7 @@ me.DataAdd = function(aData){
 	l.display.linkFromZero = me.VarInit(aData, "display.linkFromZero", false);
 	l.display.linkType = me.VarInit(aData, "display.linkType", "linkData");
 	l.display.dataType = me.VarInit(aData, "display.dataType", "rectangle");
-	l.display.dataWidth = me.VarInit(aData, "display.dataWidth", 4);
+	l.display.dataWidth = me.VarInit(aData, "display.dataWidth", 2);
 	l.display.dataColor = me.VarInit(aData, "display.dataColor", "#000");
 	me.dataLst.push(l);
 	me.LimitInit();

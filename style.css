@@ -17,7 +17,7 @@ input[type=number] {
 }
 
 #n{
-    width: 17vw;
+    width: 10vw;
     height: 4vh;
     border-radius: 5px;
     border: 1px solid teal;
@@ -28,6 +28,7 @@ input[type=number] {
 @media screen and (max-width: 500px)
 {
     #n{
+        width: 20vw;
         font-size: 3.8vw;
     }
 }
@@ -37,9 +38,13 @@ sup{
 }
 
 #factoSpan{
+    text-align: center;
     font-weight: bold;
     color: blue;
     word-wrap: break-word;
+    max-height: 20vh;
+    overflow-y: auto;
+
 }
 
 fieldset{
@@ -65,7 +70,7 @@ svg{
     margin:0;
     padding: 0;
     width: 95vw;
-    height: 95vw;
+    height: 90vw;
     border: 1px solid teal;
     border-radius: 5px;
     background-color: whitesmoke;
