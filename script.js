@@ -1,3 +1,7 @@
+"use strict";
+//Factoriel sans BigInt pour iOS
+if( navigator.userAgent.match(/iPhone/i)) factoriel = factoriel_iOS;
+
 n.focus();
 
 const primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,
@@ -160,6 +164,12 @@ function factoriel(n)
     n = BigInt(n); //Transformation en Big Int
     if (n == 1 || n == "" || n == 0) return 1n;
     else return (n * factoriel(n - 1n)); //1n = 1 en Big Int
+}
+
+function factoriel_iOS(n)
+{
+    if (n == 1 || n == "" || n == 0) return 1;
+    else return (n * factoriel(n - 1));
 }
 
 function sigma(n,p)
