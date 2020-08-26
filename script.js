@@ -163,8 +163,8 @@ n.oninput = () => {
 function factoriel(n)
 {
     //n = BigInt(n); //Transformation en Big Int
-    if (n == 1 || n == "" || n == 0) return 1n;
-    else return (n * factoriel(n - 1n)); //1n = 1 en Big Int
+    if (n == 1 || n == "" || n == 0) return 1;
+    else return (n * factoriel(n - 1)); //1n = 1 en Big Int
 }
 
 function factoriel_iOS(n)
@@ -227,7 +227,7 @@ function download(filename, text) {
     document.body.removeChild(element);
 }
 
-//Affichage Evolutif
+//Animation
 let start = true;
 let animation;
 let step=2;
