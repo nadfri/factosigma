@@ -1,6 +1,7 @@
 "use strict";
 //Factoriel sans BigInt pour iOS
-if( navigator.userAgent.match(/iPhone/i)) factoriel = factoriel_iOS;
+if( !navigator.userAgent.match(/iPhone/i)) factoriel = factoriel_iOS;
+
 
 n.focus();
 
@@ -161,7 +162,7 @@ n.oninput = () => {
 
 function factoriel(n)
 {
-    n = BigInt(n); //Transformation en Big Int
+    //n = BigInt(n); //Transformation en Big Int
     if (n == 1 || n == "" || n == 0) return 1n;
     else return (n * factoriel(n - 1n)); //1n = 1 en Big Int
 }
