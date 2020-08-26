@@ -1,6 +1,6 @@
 "use strict";
 //Factoriel sans BigInt pour iOS
-if(!navigator.userAgent.match(/iPhone/i)) factoriel = factoriel_BigInt;
+// if(!navigator.userAgent.match(/iPhone/i)) factoriel = factoriel_BigInt;
 
 
 n.focus();
@@ -166,12 +166,12 @@ function factoriel(n)
     else return (n * factoriel(n - 1));
 }
 
-function factoriel_BigInt(n)
-{
-    n = BigInt(n); //Transformation en Big Int
-    if (n == 1 || n == "" || n == 0) return 1n;
-    else return (n * factoriel(n - 1n));
-}
+// function factoriel_BigInt(n)
+// {
+//     n = BigInt(n); //Transformation en Big Int
+//     if (n == 1 || n == "" || n == 0) return 1n;
+//     else return (n * factoriel(n - 1n));
+// }
 
 function sigma(n,p)
 {
