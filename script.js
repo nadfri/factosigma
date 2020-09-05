@@ -105,10 +105,9 @@ const primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83
                 9803, 9811, 9817, 9829, 9833, 9839, 9851, 9857, 9859, 9871, 9883, 9887, 
                 9901, 9907, 9923, 9929, 9931, 9941, 9949, 9967, 9973
                 ];
-let tabSigma;
-let data;
-let excelP;
-let excelSG;
+let tabSigma, tabS
+let data, Sdata;
+let excelP, excelSG;
 const max = 10000;
 n.placeholder = `Max:${max}`;
 
@@ -124,11 +123,14 @@ n.oninput = () => {
     {
         console.time("label");
         
-        factoSpan.style.display = (n.value < 100)? "" : "block"; 
+        //factoSpan.style.display = (n.value < 100)? "" : "block"; 
 
         factoSpan.textContent   = factoriel(n.value).toLocaleString();
         decomposition.innerHTML = "";
+        somme.innerHTML = "";
         tabSigma  = [];
+        tabS = [];
+        Sdata = [];
         data = [];
         excelP = "p:\n";
         excelSG = "\nSigma:\n";
@@ -140,22 +142,34 @@ n.oninput = () => {
             else 
             {
                 let sigmaValue = sigma(n.value,prime);
+                let base = s(n.value,prime);
                 tabSigma.push({prime,sigmaValue});
+                tabS.push    ({prime,base});
+
+                let spanSigma = document.createElement("span");
+                spanSigma.innerHTML = `${prime}<sup>${sigmaValue}</sup> *`;
+                decomposition.appendChild(spanSigma);
+
+                let spanS = document.createElement("span");
+                spanS.innerHTML = `${prime}<sub>${base}</sub> *`;
+                somme.appendChild(spanS);
+
+                Sdata.push([prime, base]);
                 data.push([prime,sigmaValue]);
                 excelP  += prime + "\n";
                 excelSG += sigmaValue  +"\n";
             }
         }
 
-        for (let p of tabSigma) decomposition.innerHTML += `${p.prime}<sup>${p.sigmaValue}</sup> *`;
-
         console.timeEnd("label");
 
-        decomposition.innerHTML = decomposition.innerHTML.replace(/\*$/m,"");
         //Gestion du bouton download
         downBtn.disabled = (n.value>0)? false : true;
-    
-        trace(data);
+
+        //Traçage du double graphique
+        trace2(data,Sdata);
+
+        compare(tabSigma,tabS);
     }
 
 };
@@ -177,55 +191,80 @@ function sigma(n,p)
 {
     let   s = 0;
     const N = n;
-    let   i = 1;
-    let   temp;
+
+    // do
+    // {
+    //     s += n%p;
+    //     n  = Math.trunc(n/p);
+    // }while(n != 0) 
+    // return (N-s)/(p-1);
+
+    let temp,i=1;
+    do{
+        temp = Math.trunc(n/Math.pow(p,i));
+        s+= temp;
+        i++;
+    }while(temp>0) return s;
+}
+
+
+
+function s(n,p)
+{
+    let   s = 0;
+    const N = n;
+
     do
     {
         s += n%p;
         n  = Math.trunc(n/p);
-    }while(n != 0) return (N-s)/(p-1);
-    // do{
-    //     temp = Math.trunc(n/Math.pow(p,i));
-    //     s+= temp;
-    //     i++;
-    // }while(temp>0) return s;
+    }while(n != 0) 
+    return s
 }
 
 
-function trace(data)
+// function trace(data,id)
+// {
+//     //supprime le SVG pour la creation d'un nouveau
+//     document.getElementById(id).remove();
+
+//     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //obligatoire pour créér un SVG
+//     svg.id = id;
+//     document.body.appendChild(svg);
+
+//     const graph = new jsGraphDisplay();
+
+//     graph.DataAdd({data});
+//     graph.Draw(id);
+// }
+
+function trace2(data1,data2)
 {
-    //data.splice(0,5);
-    //console.log(data);
-    if(document.querySelector("svg")) //supprime le SVG pour la creation d'un nouveau
-        document.querySelector("svg").remove();
+    //supprime le SVG pour la creation d'un nouveau
+    document.getElementById("courbe").remove();
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //obligatoire pour créér un SVG
+    svg.id = "courbe";
+    document.body.appendChild(svg);
 
-    if(data.length>1) //inutile de tracer le graph pour 1 seul point
-    {
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        //obligatoire pour créér un SVG
-        svg.id = "courbe";
-        document.body.appendChild(svg);
+    const graph = new jsGraphDisplay();
 
-        const graph = new jsGraphDisplay();
-        graph.DataAdd({data});
-        graph.Draw(svg.id);
-    }
+    graph.DataAdd({
+        title: "data",
+        data : data1,
+    });
+
+    graph.DataAdd({
+        title: "sdata",
+        data: data2,
+        display:{
+            linkColor: "#0000ff",
+            // linkType: "toBottom"
+        }
+    });
+
+    graph.Draw(svg.id);
 }
 
-
-
-function download(filename, text) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
-}
 
 //Animation
 let start = true;
@@ -249,10 +288,10 @@ live.onclick = () => {
 
 };
 
-
 function motion()
 {
     let data = [];
+    let Sdata = []; 
     for (let prime of primes)
         {
             if(prime>step) break;
@@ -260,13 +299,19 @@ function motion()
             else 
             {
                 let sigmaValue = sigma(step,prime);
-                if(sigmaValue<20) data.push([prime,sigmaValue]);
+                let base       = s(step,prime);
+
+                    sigmaValue = (sigmaValue>16)? 16 : sigmaValue;
+                    data.push([prime,sigmaValue]);
+                    base = base/(step/30);
+                    //base = (base>20)? 20 : base;
+                    Sdata.push([prime,base]);
             }
         }
 
-    trace(data);
-    step+=1;
 
+    trace2(data,Sdata);
+    step+=1/3;
     animation = requestAnimationFrame(motion); //allow start animation
 }
 
@@ -280,6 +325,37 @@ document.getElementById("downBtn").addEventListener("click", function(){
     download(filename, text);
 }, false);
 
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+
+//Comparason data et Sdata
+function compare(tab1,tab2)
+{
+    for (let i=0; i<tab1.length; i++)
+
+        if(tab1[i].prime == tab2[i].prime && tab1[i].sigmaValue == tab2[i].base)
+        {
+            console.log(tab1[i])
+            break;
+        }
+}
+
+
+
+
+
+
 
 /************Permettre le 100vh sur mobile */
 let vh = window.innerHeight * 0.01;
@@ -290,4 +366,3 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
 //Empeche le resizing à l'apparition du clavier
 const metas = document.getElementsByTagName('meta');
 metas[1].content = 'width=device-width, height=' + window.innerHeight + ' initial-scale=1.0, maximum-scale=5.0,user-scalable=0';
-

@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <script src="script.js" defer></script>
-    <script src="jsGraphDisplay.1.0.js" defer></script>
+    <script src="jsGraphDisplay.1.0.js"></script>
     <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
 </head>
 
 <body>
     <label>Factoriel de
-        <input type="number" id="n" autocomplete="off" placeholder="max:6000" />
+        <input type="number" id="n" autocomplete="off"/>
     </label>
     =
     <span id="factoSpan">n!</span>
@@ -22,8 +22,13 @@
     <br><br>
 
     <fieldset>
-        <legend>Décomposition</legend>
+        <legend>Décomposition Sigma(n,p)</legend>
         <div id="decomposition"></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Décomposition Base S(n,p)</legend>
+        <div id="somme"></div>
     </fieldset>
 
     <br>
@@ -34,6 +39,9 @@
     </div>
 
     <br>
+
+    <svg id="courbe"></svg>
+
 
 
 

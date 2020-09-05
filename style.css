@@ -37,12 +37,16 @@ sup{
     color: red;
 }
 
+sub{
+    color: blue;
+}
+
 #factoSpan{
     text-align: center;
     font-weight: bold;
     color: blue;
     word-wrap: break-word;
-    max-height: 20vh;
+    max-height: 10vh;
     overflow-y: auto;
 
 }
@@ -54,13 +58,11 @@ fieldset{
     padding-right: 1vw;
     padding-left: 1vw;
     box-shadow: 3px 1px 2px 1px #adadad;
-    min-height: 15vh;
-}
-
-
-#decomposition{
+    min-height: 5vh;
     text-align: center;
 }
+
+
 
 i{
     color: red;
