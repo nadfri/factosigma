@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Factoriel Sigma M²</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
     <script src="script.js" defer></script>
+    <script src="primes.js" defer></script>
     <script src="jsGraphDisplay.1.0.js"></script>
     <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
-</head>
+  </head>
 
-<body>
-    <label>Factoriel de
-        <input type="number" id="n" autocomplete="off"/>
+  <body>
+    <label
+      >Factoriel de
+      <input type="number" id="n" autocomplete="off" />
     </label>
     =
     <span id="factoSpan">n!</span>
 
-    <br><br>
+    <br /><br />
 
     <fieldset>
-        <legend>Décomposition Sigma(n,p)</legend>
-        <div id="decomposition"></div>
+      <legend>Décomposition Sigma(n,p)</legend>
+      <div id="decomposition"></div>
     </fieldset>
 
     <fieldset>
-        <legend>Décomposition Base S(n,p)</legend>
-        <div id="somme"></div>
+      <legend>Décomposition Base S(n,p)</legend>
+      <div id="somme"></div>
     </fieldset>
 
-    <br>
+    <br />
 
     <div class="centrage">
-        <button id="downBtn" disabled>Télécharger la liste p & Sigma</button>
-        <button id="live">Demarrer l'animation</button>
+      <button id="downBtn" disabled>Télécharger la liste p & Sigma</button>
+      <button id="startbtn">Demarrer l'animation</button>
     </div>
 
-    <br>
+    <br />
 
+    <div id="container-graph">
+
+    </div>
+
+    <!-- <h3>2 Courbes</h3>
     <svg id="courbe"></svg>
-
-
-
-
-
-</body>
-
+    <h3>Courbe Sigma/Prime</h3>
+    <svg id="courbeSigma"></svg>
+    <h3>Courbe Base/Prime</h3>
+    <svg id="courbeBase"></svg> -->
+  </body>
 </html>
