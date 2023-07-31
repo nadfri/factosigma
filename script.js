@@ -7,6 +7,9 @@ const somme = document.getElementById('somme');
 const downBtn = document.getElementById('downBtn');
 const startbtn = document.getElementById('startbtn');
 const containerGraph = document.getElementById('container-graph');
+let excelP = '';
+let excelSigma = '';
+let excelSnp = '';
 
 const n = document.getElementById('n');
 n.placeholder = `Max:${max}`;
@@ -40,13 +43,13 @@ function sigma(n, q) {
 }
 
 /*S function*/
-function s(n, q) {
+function s(n, p) {
   const N = n;
   let s = 0;
 
   do {
-    s += n % q;
-    n = Math.trunc(n / q);
+    s += n % p;
+    n = Math.trunc(n / p);
   } while (n != 0);
   return s;
 }
@@ -97,8 +100,9 @@ n.oninput = () => {
     decomposition.innerHTML = '';
     somme.innerHTML = '';
 
-    let excelP = 'p:\n';
-    let excelSG = '\nSigma:\n';
+    excelP = 'p= [';
+    excelSnp = ']\nSnp= [';
+    excelSigma = ']\nSigma= [';
 
     for (let prime of primes) {
       if (prime > n.value) break;
@@ -118,8 +122,9 @@ n.oninput = () => {
         arrayOfPrimeAndBase.push([prime, base]);
         arrayOfPrimeAndSigmaValue.push([prime, sigmaValue]);
 
-        excelP += prime + '\n';
-        excelSG += sigmaValue + '\n';
+        excelP += prime + ',';
+        excelSigma += sigmaValue + ',';
+        excelSnp += base + ',';
       }
     }
 
@@ -143,6 +148,8 @@ function trace(data1, data2, data3) {
 
   const chart_snp = document.getElementById('chart_snp');
   const chart_occurence_sigma = document.getElementById('chart_occurence_sigma');
+
+  
 
   const commonOptions = {
     responsive: true,
@@ -325,7 +332,7 @@ document.getElementById('downBtn').addEventListener(
   'click',
   function () {
     // Generate download of hello.txt file with some content
-    const text = excelP + excelSG;
+    const text = excelP + excelSnp + excelSigma + ']';
     const filename = 'sigma.txt';
 
     download(filename, text);
