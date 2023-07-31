@@ -8,48 +8,45 @@
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
     <script src="script.js" defer></script>
     <script src="primes.js" defer></script>
-    <script src="jsGraphDisplay.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
   </head>
 
   <body>
-    <label
-      >Factoriel de
-      <input type="number" id="n" autocomplete="off" />
-    </label>
-    =
-    <span id="factoSpan">n!</span>
+    <div class="container">
+      <label
+        >Factoriel de
+        <input type="number" id="n" autocomplete="off" />
+      </label>
+      =
+      <span id="factoSpan">n!</span>
 
-    <br /><br />
+      <br /><br />
 
-    <fieldset>
-      <legend>Décomposition Sigma(n,p)</legend>
-      <div id="decomposition"></div>
-    </fieldset>
+      <fieldset>
+        <legend>Décomposition Sigma(n,p)</legend>
+        <div id="decomposition"></div>
+      </fieldset>
 
-    <fieldset>
-      <legend>Décomposition Base S(n,p)</legend>
-      <div id="somme"></div>
-    </fieldset>
+      <fieldset>
+        <legend>Décomposition Base S(n,p)</legend>
+        <div id="somme"></div>
+      </fieldset>
 
-    <br />
+      <br />
 
-    <div class="centrage">
-      <button id="downBtn" disabled>Télécharger la liste p & Sigma</button>
-      <button id="startbtn">Demarrer l'animation</button>
+      <div class="centrage">
+        <button id="downBtn" disabled>Télécharger la liste p & Sigma</button>
+        <button id="startbtn">Demarrer l'animation</button>
+      </div>
+
+      <br />
+
+      <div class="container-chart">
+        <canvas id="chart_snp"></canvas>
+        <canvas id="chart_occurence_sigma"></canvas>
+      </div>
     </div>
-
-    <br />
-
-    <div id="container-graph">
-
-    </div>
-
-    <!-- <h3>2 Courbes</h3>
-    <svg id="courbe"></svg>
-    <h3>Courbe Sigma/Prime</h3>
-    <svg id="courbeSigma"></svg>
-    <h3>Courbe Base/Prime</h3>
-    <svg id="courbeBase"></svg> -->
   </body>
 </html>

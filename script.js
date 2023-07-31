@@ -10,7 +10,22 @@ const containerGraph = document.getElementById('container-graph');
 
 const n = document.getElementById('n');
 n.placeholder = `Max:${max}`;
-n.focus();
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    n.value = Number(n.value) + 1;
+    n.dispatchEvent(new Event('input'));
+  }
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (n.value > 0) {
+      n.value = Number(n.value) - 1;
+      n.dispatchEvent(new Event('input'));
+    }
+  }
+});
 
 /*Sigma function*/
 function sigma(n, q) {
@@ -26,8 +41,8 @@ function sigma(n, q) {
 
 /*S function*/
 function s(n, q) {
-  let s = 0;
   const N = n;
+  let s = 0;
 
   do {
     s += n % q;
@@ -63,8 +78,6 @@ function getOccurenceSigma(arrayOfPrimeAndSigmaValue) {
     .filter(([_, occurrencesSigmaObj]) => occurrencesSigmaObj > 1)
     .map(([value, occurrence]) => [Number(value), occurrence]);
 
-  console.log('occurence of Sigma:', arrayOfOccurenceSigma);
-
   return arrayOfOccurenceSigma;
 }
 
@@ -76,6 +89,9 @@ n.oninput = () => {
   if (n.value > max) {
     decomposition.innerHTML = `<i>Erreur: n > ${max} !!!</i>`;
     factoSpan.innerHTML = '<i>Choisir un n plus petit!</i>';
+  } else if (n.value < 0) {
+    decomposition.innerHTML = `<i>Erreur: n < 0 !!!</i>`;
+    factoSpan.innerHTML = '<i>Choisir un n positif!</i>';
   } else {
     factoSpan.textContent = factoriel(n.value).toLocaleString();
     decomposition.innerHTML = '';
@@ -109,72 +125,161 @@ n.oninput = () => {
 
     const arrayOfOccurenceSigma = getOccurenceSigma(arrayOfPrimeAndSigmaValue);
 
-    trace(arrayOfPrimeAndSigmaValue, arrayOfPrimeAndBase, arrayOfOccurenceSigma);
+    trace(arrayOfPrimeAndBase, arrayOfPrimeAndSigmaValue, arrayOfOccurenceSigma);
+
     downBtn.disabled = n.value > 0 ? false : true;
   }
 };
 
 /* Graphique */
+let courbe_snp;
+let courbe_occurence_sigma;
+
 function trace(data1, data2, data3) {
-  //Supprime les SVG existants pour la création de deux nouveaux
-  document.getElementById('courbe1')?.remove();
-  document.getElementById('courbe2')?.remove();
-  document.getElementById('courbe3')?.remove();
+  if (typeof courbe_snp !== 'undefined') {
+    courbe_snp.destroy();
+    courbe_occurence_sigma.destroy();
+  }
 
-  const svg1 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg1.id = 'courbe1';
-  containerGraph.appendChild(svg1);
+  const chart_snp = document.getElementById('chart_snp');
+  const chart_occurence_sigma = document.getElementById('chart_occurence_sigma');
 
-  const svg2 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg2.id = 'courbe2';
-  containerGraph.appendChild(svg2);
+  const commonOptions = {
+    responsive: true,
+    animation: false,
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: 'x',
+        },
+      },
+    },
+  };
 
-  const svg3 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg3.id = 'courbe3';
-  containerGraph.appendChild(svg3);
-
-  const graphSigma = new jsGraphDisplay();
-
-  data1.splice(0, 1);
-
-  graphSigma.DataAdd({
-    title: 'arrayOfPrimeAndSigmaValue',
-    data: data1,
-  });
-
-  graphSigma.axe.x.title = 'Prime';
-  graphSigma.axe.y.title = 'Sigma';
-  graphSigma.axe.y.max = 20;
-  graphSigma.axe.y.step = 1;
-  graphSigma.Draw(svg1.id);
-
-  const graphBase = new jsGraphDisplay();
-
-  graphBase.DataAdd({
-    title: 'arrayOfPrimeAndBase',
-    data: data2,
-    display: {
-      linkColor: '#0000ff',
+  courbe_snp = new Chart(chart_snp, {
+    type: 'line',
+    data: {
+      labels: data1.map(([prime, _]) => prime),
+      datasets: [
+        {
+          label: 'S(n,p)',
+          data: data1.map(([_, y]) => y),
+          borderWidth: 1,
+          yAxisID: 'y-snp',
+        },
+        {
+          label: 'Sigma(n,p)',
+          data: data2.map(([_, y]) => y),
+          borderWidth: 1,
+          yAxisID: 'y-sigma',
+        },
+      ],
+    },
+    options: {
+      ...commonOptions,
+      scales: {
+        x: {
+          min: 2,
+          type: 'linear',
+          display: true,
+          title: {
+            display: true,
+            text: 'Prime',
+          },
+          ticks: {
+            stepSize: 1,
+            precision: 0,
+          },
+        },
+        'y-snp': {
+          min: 0,
+          display: true,
+          position: 'left', // Afficher l'axe à gauche pour S(n,p)
+          title: {
+            display: true,
+            text: 'S(n,p)',
+          },
+          ticks: {
+            stepSize: 1,
+            precision: 0,
+          },
+        },
+        'y-sigma': {
+          min: 0,
+          max: 30,
+          display: true,
+          position: 'right', // Afficher l'axe à droite pour Sigma(n,p)
+          title: {
+            display: true,
+            text: 'Sigma(n,p)',
+          },
+          ticks: {
+            stepSize: 1,
+            precision: 0,
+          },
+          grid: {
+            display: false, // Masquer le quadrillage de l'axe y de droite
+          },
+        },
+      },
     },
   });
 
-  graphBase.axe.x.title = 'Prime';
-  graphBase.axe.y.title = 'Base';
-  graphBase.Draw(svg2.id);
-
-  const graphOccSigma = new jsGraphDisplay();
-
-  graphOccSigma.DataAdd({
-    title: 'arrayOfOccurenceSigma',
-    data: data3,
-    display: {
-      linkColor: '#b600ff',
+  courbe_occurence_sigma = new Chart(chart_occurence_sigma, {
+    type: 'bar',
+    data: {
+      labels: data3.map(([prime, _]) => prime),
+      datasets: [
+        {
+          label: 'Occurence de Sigma(n,p)',
+          data: data3.map(([_, y]) => y),
+          borderWidth: 1,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      animation: false,
+      scales: {
+        x: {
+          min: 1,
+          display: true,
+          title: {
+            display: true,
+            text: 'Sigma(n,p)',
+          },
+          ticks: {
+            stepSize: 1,
+            precision: 0,
+          },
+        },
+        y: {
+          min: 0,
+          display: true,
+          title: {
+            display: true,
+            text: 'Occurence de Sigma(n,p) > 1',
+          },
+          ticks: {
+            stepSize: 1,
+            precision: 0,
+          },
+        },
+      },
     },
   });
-
-  graphOccSigma.axe.x.title = 'Sigma';
-  graphOccSigma.axe.y.title = 'Occurrence of Sigma > 1';
-  graphOccSigma.Draw(svg3.id);
 }
 
 /* Animation */
@@ -210,7 +315,7 @@ function motion() {
 
   const arrayOfOccurenceSigma = getOccurenceSigma(arrayOfPrimeAndSigmaValue);
 
-  trace(arrayOfPrimeAndSigmaValue, arrayOfPrimeAndBase, arrayOfOccurenceSigma);
+  trace(arrayOfPrimeAndBase, arrayOfPrimeAndSigmaValue, arrayOfOccurenceSigma);
   step++;
   animation = requestAnimationFrame(motion); //allow start animation
 }
