@@ -223,7 +223,7 @@ function trace(data1, data2, data3) {
         },
         'y-sigma': {
           min: 0,
-          max: 30,
+          max: 15,
           display: true,
           position: 'right', // Afficher l'axe à droite pour Sigma(n,p)
           title: {
