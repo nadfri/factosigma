@@ -111,13 +111,20 @@ n.oninput = () => {
         const base = s(n.value, prime);
         arrayOfSigmas.push({ prime, sigmaValue });
 
+        const spanStar = document.createElement('span');
+        spanStar.textContent = ' * ';
+
         const spanSigma = document.createElement('span');
-        spanSigma.innerHTML = `${prime}<sup>${sigmaValue}</sup> *`;
+        spanSigma.innerHTML = `${prime}<sup>${sigmaValue}</sup>`;
+
         decomposition.appendChild(spanSigma);
+        decomposition.appendChild(spanStar.cloneNode(true)); // allow clonage of spanStar
 
         const spanS = document.createElement('span');
-        spanS.innerHTML = `${prime}<sub>${base}</sub> *`;
+        spanS.innerHTML = `${prime}<sub>${base}</sub>`;
+
         somme.appendChild(spanS);
+        somme.appendChild(spanStar.cloneNode(true)); // allow clonage of spanStar
 
         arrayOfPrimeAndBase.push([prime, base]);
         arrayOfPrimeAndSigmaValue.push([prime, sigmaValue]);
@@ -127,6 +134,10 @@ n.oninput = () => {
         excelSnp += base + ',';
       }
     }
+
+    //remove last * from decomposition and somme of last span
+    decomposition.lastChild?.remove();
+    somme.lastChild?.remove();
 
     const arrayOfOccurenceSigma = getOccurenceSigma(arrayOfPrimeAndSigmaValue);
 
@@ -148,8 +159,6 @@ function trace(data1, data2, data3) {
 
   const chart_snp = document.getElementById('chart_snp');
   const chart_occurence_sigma = document.getElementById('chart_occurence_sigma');
-
-  
 
   const commonOptions = {
     responsive: true,
